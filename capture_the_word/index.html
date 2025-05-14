@@ -1,10 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Vue + TS</title>
+    <script src="https://s.thsi.cn/cb?;cd/ths-frontend-common-lib-container/v1.3.5/common/;basic.js;bridge.js;cd/ths-frontend-common-lib-container/v1.3.5/business/;stat.js"></script>
+    <script src="https://s.thsi.cn/hxapp/m/base/js/skywalking.1.1.22.min.js"></script>
+    <script>
+      try {
+        ClientMonitor.register({
+          // 采集器服务，注意区分环境和域名
+          collector: "https://khtest.10jqka.com.cn/apm-nginx/skywalking-web",
+          rate: 1, // 性能采集比例
+          autoTracePerf: false, // 是否采集性能信息
+          perfEntries: true,
+          service: "local-test-1::sub-group::kernel-kingfisher-collector", // 业务标识
+          entityKey: "abcdefg", // 页面标识
+          pagePath: "/asd/asd",
+          serviceVersion: `sw-local-to-elk-0120-sendBeacon`, // 格式：设备标识_业务标识_版本标识
+          enableSPA: false, // 是否考虑SPA的处理，没有用前端路由一定要置为false
+          useFmp: true, // 是否记录首屏加载信息
+          extraMsg: () => "这是我额外追加的信息", // 额外信息，可以直接传字符串，也可以传function
+          noErrorPaths: [
+            "apm-test.myhexin.com",
+            "10.158.0.182:8080",
+            "khtest.10jqka.com.cn",
+          ], // 'khtest.10jqka.com.cn'
+          noTraceOrigins: ["https://eq.10jqka.com.cn"],
+          noTrace: false,
+          sendErrorTime: 3000, // 默认 30s
+          sendSegmentsTime: 1500, // segment 默认上报时间
+        });
+      } catch (e) {
+        console.log("监控报错了", e);
+        console.warn(e.message);
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>
