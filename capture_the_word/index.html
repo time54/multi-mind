@@ -11,7 +11,7 @@
       try {
         ClientMonitor.register({
           // 采集器服务，注意区分环境和域名
-          collector: "https://khtest.10jqka.com.cn/apm-nginx/skywalking-web",
+          collector: "https://apm.hexin.cn/skywalking-web/",
           rate: 1, // 性能采集比例
           autoTracePerf: false, // 是否采集性能信息
           perfEntries: true,
@@ -29,7 +29,7 @@
           ], // 'khtest.10jqka.com.cn'
           noTraceOrigins: ["https://eq.10jqka.com.cn"],
           noTrace: false,
-          sendErrorTime: 3000, // 默认 30s
+          sendErrorTime: 3000, // 默认 3s
           sendSegmentsTime: 1500, // segment 默认上报时间
         });
       } catch (e) {

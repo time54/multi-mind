@@ -32,6 +32,7 @@
         <button @click="triggerParseError" class="error-btn">
           数据解析错误
         </button>
+        <button @click="triggerSSLError" class="error-btn">SSL 错误</button>
       </div>
     </div>
     <div class="error-section">
@@ -142,6 +143,19 @@ const triggerParseError = async () => {
       throw new Error(`数据解析错误: ${error.message}`);
     }
     throw new Error("未知解析错误");
+  }
+};
+
+// SSL 错误示例
+const triggerSSLError = async () => {
+  try {
+    // 访问一个已知的自签名或无效证书的 HTTPS 地址
+    await fetch("https://self-signed.badssl.com/");
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`SSL 错误: ${error.message}`);
+    }
+    throw new Error("未知 SSL 错误");
   }
 };
 

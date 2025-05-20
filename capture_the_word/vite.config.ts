@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "https://khtest.10jqka.com.cn/dev/taojinchao/TEST/sslError/",
   server: {
     allowedHosts: true,
     proxy: {
