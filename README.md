@@ -1,30 +1,15 @@
-# 文本大模型：deepseek-chat
+# 项目：vue3-ts-app
 
-```js
-// 生成方式：
-// 1、普通 HTTP 请求
-// 2、Streams API
-// 3、Server-Sent Events【SSE】
-```
+下列大模型的调用演示 - 大模型：deepseek-chat - 大模型：可灵 AI - 大模型：火山引擎 - 大模型：Kimi
 
-# 图片大模型：可灵 AI
+# 项目：capture_the_word
 
-```js
-// 生成方式：
-// 1、文生图
-// 2、图生图
-```
+在项目中调用大模型，包括一个前端异常捕获的示例
 
-# 语音合成大模型：火山引擎
+# 项目：node-expree
 
-```js
-// 生成方式：
-// 文字转语音
-```
+一个 nodejs 的 express 项目，大模型 SSE 示例
 
-# 视觉大模型：Kimi
+# 项目：script-demo
 
-```js
-// 生成方式：
-// 图片转文字
-```
+AI 工作流脚本调试
