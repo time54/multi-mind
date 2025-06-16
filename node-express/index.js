@@ -14,7 +14,7 @@ app.use(express.json());
 app.get("/api/sse", async (req, res) => {
   const question = req.query.question;
 
-  // 设置 SSE 相关的响应头
+  // 关键设置：设置 SSE 相关的响应头
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
@@ -34,16 +34,18 @@ app.get("/api/sse", async (req, res) => {
       }),
     });
 
-    // 获取响应体
+    // 1. 接收流式数据
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let done = false;
     let buffer = "";
 
+    // 2. 循环读取数据流
     while (!done) {
       const { value, done: isDone } = await reader.read();
       if (isDone) break;
 
+      // 解码数据
       const chunk = buffer + decoder.decode(value);
       buffer = "";
 

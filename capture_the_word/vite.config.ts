@@ -7,6 +7,11 @@ export default defineConfig({
   server: {
     allowedHosts: true,
     proxy: {
+      "/api": {
+        target: "https://api.moonshot.cn",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
       "/tts": {
         target: "https://openspeech.bytedance.com",
         changeOrigin: true,
