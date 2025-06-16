@@ -162,8 +162,9 @@ const triggerSSLError = async () => {
 const reportFrameFn = () => {
   try {
     throw new Error("我是主动抛出的异常, 设置 1s 后上报");
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    console.error("错误信息:", err.message);
+    console.error("堆栈信息:", err.stack);
     window.ClientMonitor.reportFrameErrors(
       {
         category: "ajax",

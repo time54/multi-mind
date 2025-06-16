@@ -4,11 +4,9 @@
     <div class="input-group">
       <input v-model="question" placeholder="输入你的问题" class="input" />
       <button @click="startSSE" :disabled="loading">
-        {{ loading ? 'SSE 连接中...' : '开始 SSE' }}
+        {{ loading ? "SSE 连接中..." : "开始 SSE" }}
       </button>
-      <button @click="stopSSE" :disabled="!loading">
-        停止 SSE
-      </button>
+      <button @click="stopSSE" :disabled="!loading">停止 SSE</button>
     </div>
     <div class="response">
       <h4>响应内容：</h4>
@@ -18,30 +16,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue';
+import { ref, onUnmounted } from "vue";
 
-const question = ref('');
-const content = ref('');
+const question = ref("");
+const content = ref("");
 const loading = ref(false);
 let eventSource: EventSource | null = null;
 
 const startSSE = () => {
   if (!question.value) return;
-  
+
   loading.value = true;
-  content.value = '';
+  content.value = "";
 
   // 创建 EventSource 连接，连接到本地服务器
-  eventSource = new EventSource(`http://localhost:3000/api/sse?question=${encodeURIComponent(question.value)}`);
+  eventSource = new EventSource(
+    `http://localhost:3000/api/sse?question=${encodeURIComponent(
+      question.value
+    )}`
+  );
 
   // 监听消息事件
   eventSource.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    if (data.type === 'content') {
+    if (data.type === "content") {
       content.value += data.content;
-    } else if (data.type === 'done') {
+    } else if (data.type === "done") {
+      // 客户端主动关闭连接
       stopSSE();
-    } else if (data.type === 'error') {
+    } else if (data.type === "error") {
       content.value = `错误: ${data.error}`;
       stopSSE();
     }
@@ -49,8 +52,8 @@ const startSSE = () => {
 
   // 监听错误事件
   eventSource.onerror = (error) => {
-    console.error('SSE Error:', error);
-    content.value = 'SSE 连接错误';
+    console.error("SSE Error:", error);
+    content.value = "SSE 连接错误";
     stopSSE();
   };
 };
@@ -92,7 +95,7 @@ onUnmounted(() => {
 
 button {
   padding: 8px 16px;
-  background-color: #FF9800;
+  background-color: #ff9800;
   color: white;
   border: none;
   border-radius: 4px;
@@ -115,4 +118,4 @@ button:disabled {
   border-radius: 4px;
   min-height: 100px;
 }
-</style> 
+</style>

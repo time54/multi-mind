@@ -3,8 +3,8 @@
 ```js
 // 生成方式：
 // 1、普通 HTTP 请求
-// 2、Streams API
-// 3、Server-Sent Events【SSE】
+// 2、Streams API【前端：流式 API】
+// 3、Server-Sent Events【SSE： 服务器向客户端单向推送实时数据】
 ```
 
 # 【image】图片大模型：可灵 AI
