@@ -2,36 +2,99 @@
  * @Author: taojinchao
  * @Date: 2025-05-14 21:14:58
  * @LastEditors: taojinchao
- * @LastEditTime: 2025-06-12 14:57:23
+ * @LastEditTime: 2025-06-20 09:56:50
  * @Description: 存在源码处理
  */
-const list = [
+const logs = [
   {
-    originalLine: 120,
-    originalColumn: 10,
-    originalPath: "../../src/components/ErrorPage.vue",
-    originalName: null,
-    originalSource:
-      '  }\n};\n\n// 数据解析错误示例\nconst triggerParseError = async () => {\n  try {\n    const response = await fetch("https://api.example.com/invalid-json");\n    const text = await response.text();\n    // 尝试解析无效的 JSON 数据\n    JSON.parse(text);\n  } catch (error: unknown) {\n    if (error instanceof Error) {\n      throw new Error(`数据解析错误: ${error.message}`);\n    }\n    throw new Error("未知解析错误");\n  }\n};\n\nconst reportFrameFn = () => {\n  try {\n    throw new Error("我是主动抛出的异常, 设置 1s 后上报");\n  } catch (err) {\n    console.log(err);\n    window.ClientMonitor.reportFrameErrors(\n      {\n        category: "ajax",\n        content: "我是上下文信息",\n        level: 1,\n      },\n      err as Error\n    );\n  }\n};\n\nconst reportTti = () => {\n  window.ClientMonitor.setPerformanceData({}, { ttiTime: 54321 });\n};\n\nconst reportLcp = () => {\n  window.ClientMonitor.setPerformanceData({}, { lcpTime: 1234 });\n};',
+    service: "kaihu-moni_khweb-moni-ai-fusion-robot",
+    message:
+      "Uncaught TypeError: Cannot read properties of undefined (reading 'success')",
+    category: "js",
+    log_time: 1749114713323,
+    stack:
+      "TypeError: Cannot read properties of undefined (reading 'success')\n    at n.callInstanceMethod (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js:37:1194403)\n    at n.abort (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js:37:1194233)\n    at success (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/aiFusionRobot.c705e77a.js:1:49996)\n    at w (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js:37:1182564)\n    at https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js:37:1194535\n    at callback (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js:37:866278)\n    at <anonymous>:1:12",
+    errorUrl:
+      "https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js",
   },
   {
-    originalLine: 150,
-    originalColumn: 10,
-    originalPath: "../../src/components/ErrorPage.vue",
-    originalName: null,
-    originalSource:
-      '  }\n};\n\n// 数据解析错误示例\nconst triggerParseError = async () => {\n  try {\n    const response = await fetch("https://api.example.com/invalid-json");\n    const text = await response.text();\n    // 尝试解析无效的 JSON 数据\n    JSON.parse(text);\n  } catch (error: unknown) {\n    if (error instanceof Error) {\n      throw new Error(`数据解析错误: ${error.message}`);\n    }\n    throw new Error("未知解析错误");\n  }\n};\n\nconst reportFrameFn = () => {\n  try {\n    throw new Error("我是主动抛出的异常, 设置 1s 后上报");\n  } catch (err) {\n    console.log(err);\n    window.ClientMonitor.reportFrameErrors(\n      {\n        category: "ajax",\n        content: "我是上下文信息",\n        level: 1,\n      },\n      err as Error\n    );\n  }\n};\n\nconst reportTti = () => {\n  window.ClientMonitor.setPerformanceData({}, { ttiTime: 54321 });\n};\n\nconst reportLcp = () => {\n  window.ClientMonitor.setPerformanceData({}, { lcpTime: 1234 });\n};',
+    service: "kaihu-moni_khweb-moni-ai-fusion-robot",
+    message:
+      "Uncaught TypeError: Cannot read properties of undefined (reading '10')",
+    category: "js",
+    log_time: 1749114404307,
+    stack:
+      "TypeError: Cannot read properties of undefined (reading '10')\n    at t.value (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-common.b299601b.js:1:313893)\n    at success (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-common.b299601b.js:1:314263)\n    at success (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js:37:921821)\n    at V (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js:37:874958)\n    at https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js:37:886929\n    at callback (https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js:37:866278)\n    at <anonymous>:1:12",
+    errorUrl:
+      "https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-common.b299601b.js",
   },
 ];
-function getSourceInfoString(list) {
-  return list
-    .map(
-      (item) =>
-        `其中 ${item.originalPath}:${item.originalLine}:${item.originalColumn} 的源码为: ${item.originalSource}`
-    )
-    .join("\n");
+
+const body = {
+  list: [
+    {
+      originalLine: 1,
+      originalColumn: 15404,
+      originalPath: "webpack;",
+      sourceFilePath:
+        "https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js",
+    },
+    {
+      originalLine: 172,
+      originalColumn: 37,
+      originalPath: "webpack:///src/pages/aiStrategy/utils/getStockData.ts",
+      originalName: "MainStationFiled",
+      originalSource:
+        "import B\nstockData[item.stockCode] = tmp;\n      }\n}\n",
+      sourceFilePath:
+        "https://s.thsi.cn/cd/khweb-moni-ai-steward/js/chunk-vendors.ac2ba38b.js",
+    },
+  ],
+};
+
+function extractSourceByLine(source, line, context = 20) {
+  const lines = source.split("\n");
+  const start = Math.max(0, line - context - 1);
+  const end = Math.min(lines.length, line + context);
+  return lines.slice(start, end).join("\n");
 }
 
-// 调用
-const result = getSourceInfoString(list);
-console.log(result);
+function main({ body, logs }) {
+  const {
+    data: { bizTreeName, programBuildVersion, list = [] },
+  } = JSON.parse(body);
+
+  // 为每个 log 添加 hasSourceMap 标识
+  const newLogs = logs.map((log) => {
+    const hasSourceMap = list.some((item) =>
+      log.stack?.includes(item.sourceFilePath)
+    );
+    log.hasSourceMap = hasSourceMap;
+    return log;
+  });
+
+  // 处理每个错误项，提取源码上下文
+  const errorList = list.map((item) => {
+    if (item.originalSource) {
+      item.originalSource = extractSourceByLine(
+        item.originalSource,
+        item.originalLine,
+        20
+      );
+    }
+    return item;
+  });
+
+  let sourceCodeQuery = errorList
+    .map(
+      (item) =>
+        `${item.originalPath}:${item.originalLine}:${item.originalColumn} 的源码为: ${item.originalSource}; `
+    )
+    .join("\n");
+
+  if (sourceCodeQuery) {
+    sourceCodeQuery = `错误堆栈中涉及的资源文件，其中 ${sourceCodeQuery}。`;
+  }
+
+  return { bizTreeName, programBuildVersion, newLogs, sourceCodeQuery };
+}
