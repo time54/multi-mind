@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-
+const { createParser } = require("eventsource-parser");
 const app = express();
 const port = 3000;
 
@@ -10,11 +10,12 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-// deepseek：SSE 流式响应
-app.get("/api/sse", async (req, res) => {
-  const question = req.query.question;
 
-  // 关键设置：设置 SSE 相关的响应头
+// deepseek：SSE 流式响应
+app.post("/api/sse", async (req, res) => {
+  const question = req.body.question; // 从 body 获取问题
+
+  // 关键设置：设置 SSE 相关的响应头【SSE（流式推送）接口的标准写法】
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
@@ -34,55 +35,28 @@ app.get("/api/sse", async (req, res) => {
       }),
     });
 
-    // 1. 接收流式数据
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
-    let buffer = "";
-
-    // 2. 循环读取数据流
-    while (!done) {
-      const { value, done: isDone } = await reader.read();
-      if (isDone) break;
-
-      // 解码数据
-      const chunk = buffer + decoder.decode(value);
-      buffer = "";
-
-      // 按行分割数据，每行以 "data: " 开头，并传递给客户端
-      const lines = chunk
-        .split("\n")
-        .filter((line) => line.startsWith("data: "));
-
-      for (const line of lines) {
-        const data = line.slice(6); // 去掉 'data: ' 前缀
-        if (data === "[DONE]") {
-          done = true;
-          break;
-        }
-
-        try {
-          const parsed = JSON.parse(data);
-          const content = parsed.choices[0]?.delta?.content || "";
-          if (content) {
-            // 发送数据到客户端
-            res.write(
-              `data: ${JSON.stringify({ type: "content", content })}\n\n`
-            );
-          }
-        } catch (e) {
-          buffer += `data: ${data}`;
+    const parser = createParser({
+      onEvent(event) {
+        if (event.data) {
+          // 标准的 SSE 格式
+          res.write(`data: ${event.data}\n\n`);
         }
       }
+    });
+
+    const decoder = new TextDecoder();
+    for await (const chunk of response.body) {
+      const text = decoder.decode(chunk);
+      parser.feed(text);
     }
-    res.write("event: end\n"); // 发送结束事件
-    res.write("data: [DONE]\n\n"); // 通知客户端数据流结束
-    // res.end(); // 关闭连接
+
+    // 发送结束标记
+    res.write("data: [DONE]\n\n");
+    // 结束 SSE 流
+    res.end();
   } catch (error) {
     console.error("Error:", error);
-    res.write(
-      `data: ${JSON.stringify({ type: "error", error: error.message })}\n\n`
-    );
+    res.write(`data: ${JSON.stringify({ type: "error", error: error.message })}\n\n`);
     res.end();
   }
 });

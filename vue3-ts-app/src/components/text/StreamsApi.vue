@@ -56,7 +56,7 @@ const sendRequest = async () => {
       loading.value = false;
       return;
     }
-    // 创建一个文本解码器：用于将二进制数据流解码为字符串
+    // 创建一个文本解码器：用于将二进制数据流(Uint8Array)解码为字符串
     const decoder = new TextDecoder();
     let buffer = '';
     while (true) {
