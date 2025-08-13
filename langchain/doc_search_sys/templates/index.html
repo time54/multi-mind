@@ -1,0 +1,86 @@
+<style>
+    .source-docs {
+        margin-top: 20px;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+    }
+    
+    .source-doc {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .source-doc h4 {
+        color: #333;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    
+    .doc-content {
+        background: white;
+        padding: 10px;
+        border-radius: 3px;
+        border-left: 3px solid #007bff;
+        margin-bottom: 10px;
+    }
+    
+    .full-content {
+        background: white;
+        padding: 10px;
+        border-radius: 3px;
+        border: 1px solid #ddd;
+        white-space: pre-wrap;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    
+    details {
+        margin-top: 10px;
+    }
+    
+    summary {
+        cursor: pointer;
+        color: #007bff;
+        font-weight: bold;
+    }
+    
+    summary:hover {
+        color: #0056b3;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>易速鲜花内部问答系统</h1>
+            <img src="{{ url_for('static', filename='flower.png') }}" alt="flower logo" width="200"> 
+        </div>
+        <form method="POST">
+            <label for="question">Enter your question:</label><br>
+            <input type="text" id="question" name="question"><br>
+            <input type="submit" value="Submit">
+        </form>
+        {% if result is defined %}
+            <h2>Answer</h2>
+            <p style="white-space: pre-wrap;">{{ result.result | safe }}</p>
+            
+            {% if source_docs %}
+                <h3>信息来源</h3>
+                <div class="source-docs">
+                    {% for doc in source_docs %}
+                        <div class="source-doc">
+                            <h4>文档 {{ doc.index }}: {{ doc.file_name }}</h4>
+                            <p class="doc-content">{{ doc.content }}</p>
+                            <details>
+                                <summary>查看完整内容</summary>
+                                <p class="full-content">{{ doc.full_content }}</p>
+                            </details>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
