@@ -92,7 +92,6 @@ base_retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
 # 优化自定义检索 prompt
 retrieval_prompt = PromptTemplate(
-    input_variables=["question"],
     template="""你是一个专业的文档检索助手。请根据用户的问题，生成3个不同的检索查询，以帮助找到最相关的文档片段。
         用户问题: {question}
         请生成3个不同的检索查询，每个查询都应该从不同角度来检索相关信息：
@@ -111,18 +110,15 @@ retriever_from_llm = MultiQueryRetriever.from_llm(
 )
 
 # 优化自定义问答 prompt
-qa_prompt_template = """你是一个专业的文档问答助手。请严格按照以下格式输出答案：
-   用户问题: {question}
-   相关内容：{context}
-   请按照以下格式回答：
-       1. 直接回答：根据文档内容直接回答用户问题
-       2. 补充说明：如果有其他相关信息，请补充说明
-    如果文档中没有相关信息，请明确说明"根据提供的文档，我无法找到相关信息"。
-    回答："""
-
 qa_prompt = PromptTemplate(
-    template=qa_prompt_template,
-    input_variables=["context", "question"]
+    template="""你是一个专业的文档问答助手。请严格按照以下格式输出答案：
+        用户问题: {question}
+        相关内容：{context}
+        请按照以下格式回答：
+           1. 直接回答：根据文档内容直接回答用户问题
+           2. 补充说明：如果有其他相关信息，请补充说明
+        如果文档中没有相关信息，请明确说明"根据提供的文档，我无法找到相关信息"。
+        回答："""
 )
 
 # RetrievalQA链：把"上一步检索到的文档"作为上下文，喂给大模型生成最终答案
